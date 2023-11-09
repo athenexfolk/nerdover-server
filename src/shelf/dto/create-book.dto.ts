@@ -3,4 +3,5 @@ export class CreateBookDto {
   shelfId: string;
   name: string;
   data: string;
+  cover?: string;
 }

@@ -6,6 +6,7 @@ import { Book } from './interfaces/book.interface';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import { UpdateShelfDto } from './dto/update-shelf.dto';
+import { CreateShelfDto } from './dto/create-shelf.dto';
 
 @Injectable()
 export class ShelfService {
@@ -14,12 +15,16 @@ export class ShelfService {
     @InjectModel('Book') private readonly bookRepository: Model<Book>,
   ) {}
 
-  public async createShelf(shelfId: string, name: string) {
-    return await this.shelfRepository.create({ id: shelfId, name });
+  public async createShelf(shelf: CreateShelfDto) {
+    return await this.shelfRepository.create(shelf);
   }
 
   public async findAllShelves() {
     return await this.shelfRepository.find({}, { _id: 0 });
+  }
+
+  public async findShelf(shelfId: string) {
+    return await this.shelfRepository.findOne({ id: shelfId }, { _id: 0 });
   }
 
   public async updateShelf(shelfId: string, shelf: UpdateShelfDto) {

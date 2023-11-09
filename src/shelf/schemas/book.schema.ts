@@ -8,6 +8,7 @@ export const BookSchema = new Schema(
     shelfId: String,
     name: String,
     data: String,
+    cover: String
   },
   {
     collection: BookCollectionName,

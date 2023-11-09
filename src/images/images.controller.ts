@@ -9,15 +9,13 @@ import {
 import { ImagesService } from './images.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 
-@Controller('images')
+@Controller('api/images')
 export class ImagesController {
   constructor(private readonly imagesService: ImagesService) {}
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
   uploadFile(@UploadedFile() file: Express.Multer.File) {
-    console.log(file);
-    
     return this.imagesService.create(file);
   }
 

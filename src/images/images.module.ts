@@ -9,13 +9,11 @@ import { join } from 'path';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([
-      { name: 'Image', schema: ImageSchema },
-    ]),
+    MongooseModule.forFeature([{ name: 'Image', schema: ImageSchema }]),
     MulterModule.register({
       storage: diskStorage({
         destination: (req, file, cb) => {
-          cb(null, join(__dirname, '../../public/upload'));
+          cb(null, join(__dirname, '../../public/upload')); //change destination for locate image file
         },
         filename: (req, file, cb) => {
           const uniqueSuffix =
@@ -27,5 +25,6 @@ import { join } from 'path';
   ],
   controllers: [ImagesController],
   providers: [ImagesService],
+  exports: [ImagesService, MulterModule],
 })
-export class ImagesModule { }
+export class ImagesModule {}

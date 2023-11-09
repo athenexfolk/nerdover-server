@@ -6,6 +6,7 @@ export const ShelfSchema = new Schema(
   {
     id: String,
     name: String,
+    cover: String
   },
   {
     collection: ShelfCollectionName,

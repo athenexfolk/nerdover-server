@@ -4,6 +4,7 @@ export interface BookDescription {
   name: string;
   createdAt: Date;
   updatedAt: Date;
+  cover?: string
 }
 
 export interface Book extends BookDescription {

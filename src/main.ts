@@ -5,7 +5,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  app.useStaticAssets(join(__dirname, '../public'));
+  app.useStaticAssets(join(__dirname, '../public')); //change destination for locate image file
   await app.listen(3000);
 }
 bootstrap();
