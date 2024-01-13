@@ -6,10 +6,13 @@ import { LessonModule } from './lesson/lesson.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { join } from 'path';
+import { ImageSchema } from './schemas/image.schema';
+import { ServeStaticModule } from '@nestjs/serve-static';
 
 @Module({
   imports: [
     MongooseModule.forRoot('mongodb://127.0.0.1/nerdoverdb'),
+    MongooseModule.forFeature([{ name: 'Image', schema: ImageSchema }]),
     LessonModule,
     MulterModule.register({
       storage: diskStorage({
@@ -22,6 +25,9 @@ import { join } from 'path';
           cb(null, `${file.fieldname}-${uniqueSuffix}-${file.originalname}`);
         },
       }),
+    }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'),
     }),
   ],
   controllers: [AppController],

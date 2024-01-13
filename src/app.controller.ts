@@ -17,9 +17,14 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Post('upload')
+  @Post('images/upload')
   @UseInterceptors(FileInterceptor('file'))
   uploadImage(@UploadedFile() file: Express.Multer.File) {
-    console.log(file);
+    return this.appService.create(file);
+  }
+
+  @Get('images')
+  getImagePaths() {
+    return this.appService.findAll();
   }
 }
