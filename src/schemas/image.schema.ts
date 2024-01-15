@@ -3,10 +3,14 @@ import { Schema } from 'mongoose';
 export const ImageCollectionName = 'Images';
 
 export const ImageSchema = new Schema(
-    {
-        path: String
+  {
+    path: String,
+  },
+  {
+    collection: ImageCollectionName,
+    timestamps: {
+      createdAt: true,
+      updatedAt: false
     },
-    {
-        collection: ImageCollectionName,
-    },
+  },
 );

@@ -17,6 +17,6 @@ export class AppService {
   }
 
   public async findAll() {
-    return await this.imageRepository.find({});
+    return await this.imageRepository.find({}).sort({ createAt: -1 });
   }
 }
