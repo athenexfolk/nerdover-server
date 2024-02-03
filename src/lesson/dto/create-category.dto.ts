@@ -1,3 +1,5 @@
-import { Category } from "../interfaces/category.interface";
-
-export interface CreateCategoryDto extends Category {}
+export interface CreateCategoryDto {
+  key: string;
+  label: string;
+  cover?: string;
+}

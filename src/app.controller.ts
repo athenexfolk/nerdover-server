@@ -1,12 +1,8 @@
 import {
   Controller,
   Get,
-  Post,
-  UploadedFile,
-  UseInterceptors,
 } from '@nestjs/common';
 import { AppService } from './app.service';
-import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller()
 export class AppController {
@@ -15,16 +11,5 @@ export class AppController {
   @Get()
   getHello(): string {
     return this.appService.getHello();
-  }
-
-  @Post('api/images/upload')
-  @UseInterceptors(FileInterceptor('file'))
-  uploadImage(@UploadedFile() file: Express.Multer.File) {
-    return this.appService.create(file);
-  }
-
-  @Get('api/images')
-  getImagePaths() {
-    return this.appService.findAll();
   }
 }

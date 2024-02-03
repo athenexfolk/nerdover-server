@@ -1,3 +1,5 @@
-import { Category } from "../interfaces/category.interface";
+export interface UpdateCategoryDto {
+  label?: string;
+  cover?: string;
+}
 
-export interface UpdateCategoryDto extends Partial<Category> {}

@@ -9,8 +9,8 @@ export const ImageSchema = new Schema(
   {
     collection: ImageCollectionName,
     timestamps: {
-      createdAt: true,
-      updatedAt: false
+      createdAt: 'createTime',
+      updatedAt: false,
     },
   },
 );

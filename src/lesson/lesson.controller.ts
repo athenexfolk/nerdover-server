@@ -6,15 +6,23 @@ import {
   Param,
   Patch,
   Post,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { LessonService } from './lesson.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { CreateLessonDto } from './dto/create-lesson.dto';
 import { UpdateLessonDto } from './dto/update-lesson.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ImageService } from 'src/image/image.service';
+import { UpdateCategoryDto } from './dto/update-category.dto';
 
 @Controller('api/lesson')
 export class LessonController {
-  constructor(private readonly lessonService: LessonService) {}
+  constructor(
+    private readonly lessonService: LessonService,
+    private readonly imageService: ImageService,
+  ) {}
 
   @Get('categories')
   getCategories() {
@@ -45,32 +53,78 @@ export class LessonController {
   }
 
   @Post('categories')
-  createCategory(@Body() category: CreateCategoryDto) {
-    return this.lessonService.createCategory(category);
+  @UseInterceptors(FileInterceptor('cover'))
+  async createCategory(
+    @UploadedFile() cover: Express.Multer.File,
+    @Body() { key, label }: CreateCategoryDto,
+  ) {
+    if (cover) {
+      const coverImage = await this.imageService.create(cover);
+      return this.lessonService.createCategory({
+        key,
+        label,
+        cover: coverImage.path,
+      });
+    }
+    return this.lessonService.createCategory({ key, label });
   }
 
   @Post('lessons')
-  createLesson(@Body() lesson: CreateLessonDto) {
-    return this.lessonService.createLesson(lesson);
+  @UseInterceptors(FileInterceptor('cover'))
+  async createLesson(
+    @UploadedFile() cover: Express.Multer.File,
+    @Body() { key, label, parentKey }: CreateLessonDto,
+  ) {
+    if (cover) {
+      const coverImage = await this.imageService.create(cover);
+      return this.lessonService.createLesson({
+        key,
+        label,
+        parentKey,
+        cover: coverImage.path,
+      });
+    }
+    return this.lessonService.createLesson({ key, label, parentKey });
   }
 
   @Patch('categories/:categoryId')
-  updateCategory(
+  @UseInterceptors(FileInterceptor('cover'))
+  async updateCategory(
+    @UploadedFile() cover: Express.Multer.File,
     @Param('categoryId') categoryId: string,
-    @Body() category: CreateCategoryDto,
+    @Body() { label }: UpdateCategoryDto,
   ) {
-    return this.lessonService.updateCategory({ ...category, key: categoryId });
+    if (cover) {
+      const coverImage = await this.imageService.create(cover);
+      return this.lessonService.updateCategory(categoryId, {
+        label,
+        cover: coverImage.path,
+      });
+    }
+    return this.lessonService.updateCategory(categoryId, { label });
   }
 
   @Patch('lessons/:categoryId/:lessonId')
-  updateLesson(
+  @UseInterceptors(FileInterceptor('cover'))
+  async updateLesson(
+    @UploadedFile() cover: Express.Multer.File,
     @Param('categoryId') categoryId: string,
     @Param('lessonId') lessonId: string,
-    @Body() lesson: UpdateLessonDto,
-  ) {
-    return this.lessonService.updateLesson(categoryId, {
-      ...lesson,
-      key: lessonId,
+    @Body() { label, parentKey, content }: UpdateLessonDto,
+  ) {    
+    if (cover) {
+      const coverImage = await this.imageService.create(cover);
+      return this.lessonService.updateLesson(categoryId, lessonId, {
+        label,
+        parentKey,
+        content,
+        cover: coverImage.path,
+      });
+    }
+    return this.lessonService.updateLesson(categoryId, lessonId, {
+      label,
+      parentKey,
+      content,
     });
   }
 

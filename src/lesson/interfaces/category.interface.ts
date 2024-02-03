@@ -1,5 +1,7 @@
 export interface Category {
-  icon: string;
-  label: string;
   key: string;
+  label: string;
+  cover?: string;
+  createTime: Date;
+  updateTime: Date;
 }

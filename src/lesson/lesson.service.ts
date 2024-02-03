@@ -40,43 +40,30 @@ export class LessonService {
     });
   }
 
-  public async createCategory({ key, label, icon }: CreateCategoryDto) {
-    return await this.categoryRepository.create({ key, label, icon });
+  public async createCategory(newCategory: CreateCategoryDto) {
+    return await this.categoryRepository.create(newCategory);
   }
 
-  public async createLesson({
-    key,
-    label,
-    icon,
-    parentKey,
-    tags,
-    content,
-  }: CreateLessonDto) {
-    return await this.lessonRepository.create({
-      key,
-      label,
-      icon,
-      parentKey,
-      tags,
-      content,
-    });
+  public async createLesson(createLesson: CreateLessonDto) {
+    return await this.lessonRepository.create(createLesson);
   }
 
-  public async updateCategory({ key, label, icon }: UpdateCategoryDto) {
+  public async updateCategory(categoryId: string, category: UpdateCategoryDto) {
     return await this.categoryRepository.findOneAndUpdate(
-      { key },
-      { label, icon },
+      { key: categoryId },
+      category,
       { new: true },
     );
   }
 
   public async updateLesson(
-    oldCategoryId: string,
-    { key, label, icon, parentKey, tags, content }: UpdateLessonDto,
+    categoryId: string,
+    lessonId: string,
+    lesson: UpdateLessonDto,
   ) {
     return await this.lessonRepository.findOneAndUpdate(
-      { parentKey: oldCategoryId, key },
-      { label, icon, parentKey, tags, content },
+      { parentKey: categoryId, key: lessonId },
+      lesson,
       { new: true },
     );
   }

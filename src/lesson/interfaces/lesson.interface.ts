@@ -1,8 +1,9 @@
 export interface Lesson {
-  icon: string;
-  label: string;
   key: string;
+  label: string;
   parentKey: string;
-  tags: string[];
+  cover?: string;
   content: string;
+  createTime: Date;
+  UpdateTime: Date;
 }

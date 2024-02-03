@@ -1,3 +1,6 @@
-import { Lesson } from '../interfaces/lesson.interface';
-
-export interface UpdateLessonDto extends Partial<Lesson> {}
+export interface UpdateLessonDto {
+  label?: string;
+  parentKey?: string;
+  cover?: string;
+  content?: string;
+}

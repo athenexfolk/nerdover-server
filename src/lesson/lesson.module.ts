@@ -4,6 +4,7 @@ import { LessonService } from './lesson.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { CategorySchema } from './schemas/category.schema';
 import { LessonSchema } from './schemas/lesson.schema';
+import { ImageModule } from 'src/image/image.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { LessonSchema } from './schemas/lesson.schema';
         schema: LessonSchema,
       },
     ]),
+    ImageModule
   ],
   controllers: [LessonController],
   providers: [LessonService],
