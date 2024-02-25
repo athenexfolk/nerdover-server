@@ -140,4 +140,9 @@ export class LessonController {
   ) {
     return this.lessonService.deleteLesson(categoryId, lessonId);
   }
+
+  @Get('map')
+  getMap() {
+    return this.lessonService.getMap()
+  }
 }

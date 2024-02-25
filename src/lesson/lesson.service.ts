@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Category } from './interfaces/category.interface';
+import { Category, CategoryMap } from './interfaces/category.interface';
 import { Lesson } from './interfaces/lesson.interface';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { CreateLessonDto } from './dto/create-lesson.dto';
@@ -77,5 +77,34 @@ export class LessonService {
       parentKey: categoryId,
       key: lessonId,
     });
+  }
+
+  public async getMap() {
+    return this.categoryRepository.aggregate<CategoryMap>([
+      {
+        $project: {
+          _id: 0,
+          key: 1,
+          label: 1,
+        },
+      },
+      {
+        $lookup: {
+          from: 'lessons',
+          localField: 'key',
+          foreignField: 'parentKey',
+          as: 'lessons',
+          pipeline: [
+            {
+              $project: {
+                _id: 0,
+                label: 1,
+                key: 1,
+              },
+            },
+          ],
+        },
+      },
+    ]);
   }
 }

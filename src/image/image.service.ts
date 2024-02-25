@@ -16,4 +16,8 @@ export class ImageService {
   public async findAll() {
     return await this.imageRepository.find({}).sort({ _id: 'desc' });
   }
+
+  public async delete(path: string) {
+    return await this.imageRepository.findOneAndDelete({path})
+  }
 }
